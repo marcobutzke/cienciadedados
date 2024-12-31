@@ -1,7 +1,18 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
+import json
 
-from recursos.funcoes import ler_bancodedados
+@st.cache_data
+def ler_bancodedados():
+    st.session_state['estados'] = pd.read_parquet(
+        st.secrets.dados
+    )
+    st.session_state['geo'] = json.load(
+        open(
+            st.secrets.mapa
+        )
+    )
+
 
 st.set_page_config(
     layout="wide",

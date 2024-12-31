@@ -1,34 +1,40 @@
 import streamlit as st
 from great_tables import GT
+from streamlit_extras.tags import tagger_component
 
-
-with st.popover('Variáveis', use_container_width=True):
-    colunas = st.pills(
-        label='Selecione as Colunas',
-        options=st.secrets.continuas,
-        selection_mode='multi'
-    )
-
-tabs = st.tabs(
-    [
-        'Dados Originais',
-        'Formato Tabela',
-        'Tabela por Regiao',
-        'Região e Estados'
-    ]
+tagger_component(
+    content='',
+    tags=[
+        'Ciencia de Dados',
+        'Dados Originais'
+    ],
+    color_name=['blue', 'lightgray']
 )
-
-with tabs[0]:
-    st.dataframe(
-        st.session_state['estados'][
-            st.secrets.descritivas + colunas
-        ],
-        use_container_width=True,
-        hide_index=True,
-        height=1000
+colunas = st.segmented_control(
+    label='Selecione as Colunas',
+    options=st.secrets.continuas,
+    selection_mode='multi'
+)
+if len(colunas) > 0:
+    tabs = st.tabs(
+        [
+            'Dados Originais',
+            'Formato Tabela',
+            'Tabela por Regiao',
+            'Região e Estados'
+        ]
     )
-with tabs[1]:
-    if len(colunas) > 0:
+
+    with tabs[0]:
+        st.dataframe(
+            st.session_state['estados'][
+                st.secrets.descritivas + colunas
+            ],
+            use_container_width=True,
+            hide_index=True,
+            height=1000
+        )
+    with tabs[1]:
         st.html(
             GT(
                 st.session_state['estados'][
@@ -46,8 +52,7 @@ with tabs[1]:
                 columns=colunas,
             )
         )
-with tabs[2]:
-    if len(colunas) > 0:
+    with tabs[2]:
         st.html(
             GT(
                 st.session_state['estados'][
@@ -60,28 +65,27 @@ with tabs[2]:
                 source_note='Fonte: IBGE Cidades'
             ).tab_stub(rowname_col='Estado', groupname_col="Região").tab_stubhead(label='Região')
         )
-
-with tabs[3]:
-    if st.toggle('Média'):
-        regioes = st.session_state['estados'].groupby(st.secrets.descritivas[1])[colunas].mean().reset_index()
-    else:
-        regioes = st.session_state['estados'].groupby(st.secrets.descritivas[1])[colunas].sum().reset_index()
-    evento = st.dataframe(
-        data=regioes,
-        use_container_width=True,
-        hide_index=True,
-        selection_mode='single-row',
-        on_select='rerun'
-    )
-    if len(evento['selection']['rows']) > 0:
-        st.dataframe(
-            st.session_state['estados'][
-                st.session_state['estados']['Região'] == regioes[
-                    evento['selection']['rows'][0]:evento['selection']['rows'][0] + 1
-                ]['Região'].values[0]
-            ][
-                st.secrets.descritivas + colunas
-            ],
+    with tabs[3]:
+        if st.toggle('Média'):
+            regioes = st.session_state['estados'].groupby(st.secrets.descritivas[1])[colunas].mean().reset_index()
+        else:
+            regioes = st.session_state['estados'].groupby(st.secrets.descritivas[1])[colunas].sum().reset_index()
+        evento = st.dataframe(
+            data=regioes,
             use_container_width=True,
-            hide_index=True
+            hide_index=True,
+            selection_mode='single-row',
+            on_select='rerun'
         )
+        if len(evento['selection']['rows']) > 0:
+            st.dataframe(
+                st.session_state['estados'][
+                    st.session_state['estados']['Região'] == regioes[
+                        evento['selection']['rows'][0]:evento['selection']['rows'][0] + 1
+                    ]['Região'].values[0]
+                ][
+                    st.secrets.descritivas + colunas
+                ],
+                use_container_width=True,
+                hide_index=True
+            )
