@@ -14,9 +14,9 @@ def varianceinflationfactor(df, colunas):
 
 def highlight_class_vif(s):
     if s.VIF > 20:
-        return ['background-color: red']*len(s)
+        return ['background-color: #f8c291']*len(s)
     else:
-        return ['background-color: green']*len(s)
+        return ['background-color: #b8e994']*len(s)
 
 
 tagger_component(

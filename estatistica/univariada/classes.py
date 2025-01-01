@@ -28,13 +28,13 @@ def classificacao_estados_variavel(bra_var, variavel):
 
 def cor_classe(s):
     if s.outlier_max == 1:
-        return ['background-color: #636efa']*len(s)
+        return ['background-color: #6a89cc']*len(s)
     elif s.class_lc == 'acima':
-        return ['background-color: #00cc96']*len(s)
+        return ['background-color: #b8e994']*len(s)
     elif s.class_lc == 'media':
-        return ['background-color: #fecb52']*len(s)
+        return ['background-color: #fad390']*len(s)
     else:
-        return ['background-color: #ef553b']*len(s)
+        return ['background-color: #f8c291']*len(s)
 
 tagger_component(
     content='',
@@ -90,9 +90,9 @@ if variavel is not None:
         mapa_px.update_traces(marker_line_width=1)
         cl1.plotly_chart(mapa_px)
         classe_cores = {
-            'acima': '#00cc96',
-            'media': '#fecb52',
-            'abaixo': '#ef553b'
+            'acima': '#b8e994',
+            'media': '#fad390',
+            'abaixo': '#f8c291'
         }
         mapa_px = px.choropleth_mapbox(
             data_frame=estados_cla,

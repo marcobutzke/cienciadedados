@@ -19,11 +19,11 @@ def classificacao_abc_variavel(abc, variavel):
 
 def cor_abc(s):
     if s.classe == 'A':
-        return ['background-color: #00cc96']*len(s)
+        return ['background-color: #b8e994']*len(s)
     elif s.classe == 'B':
-        return ['background-color: #fecb52']*len(s)
+        return ['background-color: #fad390']*len(s)
     else:
-        return ['background-color: #ef553b']*len(s)
+        return ['background-color: #f8c291']*len(s)
 
 
 tagger_component(
@@ -78,7 +78,7 @@ if variavel is not None:
         mapa_px.update_traces(marker_line_width=1)
         cl1, cl2 = st.columns(2)
         cl1.plotly_chart(mapa_px)
-        abc_cores = {'A': '#00cc96', 'B': '#fecb52', 'C': '#ef553b'}
+        abc_cores = {'A': '#b8e994', 'B': '#fad390', 'C': '#f8c291'}
         mapa_px = px.choropleth_mapbox(
             data_frame=estados_abc,
             geojson=st.session_state['geo'],
