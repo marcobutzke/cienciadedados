@@ -108,7 +108,9 @@ if variavel is not None:
         )
         mapa_px.update_layout(margin={'r': 0, 't': 0, 'l': 0, 'b': 0})
         mapa_px.update_traces(marker_line_width=1)
-        cl2.plotly_chart(mapa_px)
+        evento = cl2.plotly_chart(mapa_px, on_select='rerun')
+        if len(evento['selection']['points']) > 0:
+            st.write(evento['selection'])
     with graf:
         st.altair_chart(
             alt.Chart(estados_cla).mark_bar().encode(

@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import json
 
+
 @st.cache_data
 def ler_bancodedados():
     st.session_state['estados'] = pd.read_parquet(
@@ -11,6 +12,9 @@ def ler_bancodedados():
         open(
             st.secrets.mapa
         )
+    )
+    st.session_state['ecommerce'] = pd.read_parquet(
+        st.secrets.base
     )
 
 
@@ -103,10 +107,13 @@ pages = {
             title="Regressão",
             icon=":material/chart_data:"
         ),
-
     ],
     'Projeto de Ciencia de Dados': [
-
+        st.Page(
+            page="projeto/dashboard.py",
+            title="Dashboard",
+            icon=":material/dashboard:"
+        ),
     ]
 }
 
