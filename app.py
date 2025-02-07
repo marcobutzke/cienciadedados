@@ -13,9 +13,6 @@ def ler_bancodedados():
             st.secrets.mapa
         )
     )
-    st.session_state['ecommerce'] = pd.read_parquet(
-        st.secrets.base
-    )
 
 
 st.set_page_config(

@@ -121,6 +121,10 @@ tagger_component(
 )
 if 'status' not in st.session_state:
     st.session_state['status'] = 0
+    with st.spinner('Lendo Dados...'):
+        st.session_state['ecommerce'] = pd.read_parquet(
+            st.secrets.base
+        )
 if st.session_state['status'] == 0:
     with st.status('Pipeline - Cluster', expanded=True) as status:
         st.write('RFM Analisys')
